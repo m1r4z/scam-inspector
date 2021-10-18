@@ -146,7 +146,9 @@ function App() {
 								</a>
 							}
 							secondary={
-								item.url.includes("reddit.com") ? (
+								item.url.includes("reddit.com") ||
+								item.url.includes("scamfoo.com") ||
+								item.url.includes("scamadviser.com") ? (
 									<b style={{ color: "red" }}>{item.url}</b>
 								) : (
 									item.url
