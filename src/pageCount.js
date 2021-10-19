@@ -28,7 +28,7 @@ const countSitemap = async (sitemapUrls, index) => {
 export const calculatePageCount = async (url) => {
 	try {
 		let sitemapCount = 0;
-		sitemapCount = await countSitemap(["http://" + url + "/sitemap.xml"], 0);
+		sitemapCount = await countSitemap(["https://" + url + "/sitemap.xml"], 0);
 		console.log(sitemapCount);
 		if (sitemapCount === 0) {
 			sitemapCount = await countSitemap(["https://" + url + "/sitemap_index.xml"], 0);

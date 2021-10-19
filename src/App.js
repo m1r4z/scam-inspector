@@ -1,5 +1,6 @@
 import {
 	CircularProgress,
+	Container,
 	Divider,
 	IconButton,
 	InputBase,
@@ -7,11 +8,6 @@ import {
 	ListItem,
 	ListItemText,
 	Paper,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableRow,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState } from "react";
@@ -107,15 +103,24 @@ function App() {
 
 			{topGoogleSearchResults.length > 0 ? (
 				topGoogleSearchResults.map((item) => (
-					<ListItem style={{ paddingTop: 0, paddingBottom: 0 }}>
+					<ListItem style={{ paddingTop: 0, paddingBottom: 0 }} key={item.url}>
 						<ListItemText
 							primary={
-								<a href={item.url}>
-									<h3>{item.title}</h3>
-								</a>
+								<>
+									<a href={item.url}>
+										<h3 style={{ marginBottom: 0 }}>{item.title}</h3>
+									</a>
+									<span
+										style={{
+											color: "black",
+											fontSize: "12px",
+										}}
+									>
+										{<span style={{ wordWrap: "break-word" }}>{item.url}</span>}
+									</span>
+								</>
 							}
-							secondary={item.url}
-							style={{ paddingTop: 0, paddingBottom: 0 }}
+							secondary={item.description}
 						/>
 					</ListItem>
 				))
@@ -138,23 +143,34 @@ function App() {
 			</ListItem>
 			{scamGoogleSearchResults.length > 0 ? (
 				scamGoogleSearchResults.map((item) => (
-					<ListItem style={{ paddingTop: 0, paddingBottom: 0 }}>
+					<ListItem style={{ paddingTop: 0, paddingBottom: 0 }} key={item.url}>
 						<ListItemText
 							primary={
-								<a href={item.url}>
-									<h3>{item.title}</h3>
-								</a>
+								<>
+									<a href={item.url}>
+										<h3 style={{ marginBottom: 0 }}>{item.title}</h3>
+									</a>
+									<span
+										style={{
+											color: "black",
+											fontSize: "12px",
+										}}
+									>
+										{item.url.includes("reddit.com") ||
+										item.url.includes("scamfoo.com") ||
+										item.url.includes("scamadviser.com") ? (
+											<b style={{ color: "red", wordWrap: "break-word" }}>
+												{item.url}
+											</b>
+										) : (
+											<span style={{ wordWrap: "break-word" }}>
+												{item.url}
+											</span>
+										)}
+									</span>
+								</>
 							}
-							secondary={
-								item.url.includes("reddit.com") ||
-								item.url.includes("scamfoo.com") ||
-								item.url.includes("scamadviser.com") ? (
-									<b style={{ color: "red" }}>{item.url}</b>
-								) : (
-									item.url
-								)
-							}
-							style={{ paddingTop: 0, paddingBottom: 0 }}
+							secondary={item.description}
 						/>
 					</ListItem>
 				))
@@ -167,33 +183,11 @@ function App() {
 	);
 
 	const mainTable = (
-		<TableContainer>
-			<Table sx={{}} aria-label="simple table">
-				<TableBody>
-					<TableRow>
-						<TableCell></TableCell>
-						<TableCell style={{ width: "50%" }} align="right">
-							{firstColumn}
-						</TableCell>
-						<TableCell></TableCell>
-					</TableRow>
-					<TableRow>
-						<TableCell></TableCell>
-						<TableCell style={{ width: "50%" }} align="right">
-							{secondColumn}
-						</TableCell>
-						<TableCell></TableCell>
-					</TableRow>
-					<TableRow>
-						<TableCell></TableCell>
-						<TableCell style={{ width: "50%" }} align="right">
-							{thirdColumn}
-						</TableCell>
-						<TableCell></TableCell>
-					</TableRow>
-				</TableBody>
-			</Table>
-		</TableContainer>
+		<Container style={{ padding: 10 }} maxWidth={"sm"}>
+			<div style={{ margin: 10 }}>{firstColumn}</div>
+			<div style={{ margin: 10 }}>{secondColumn}</div>
+			<div style={{ margin: 10 }}>{thirdColumn}</div>
+		</Container>
 	);
 
 	const searchBar = (

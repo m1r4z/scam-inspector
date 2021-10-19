@@ -1,27 +1,17 @@
 export const topGoogleSearch = async (url) => {
-	let res = await fetch("https://www.google.com/search?q=" + url);
-	let text = await res.text();
-	let dom = new DOMParser().parseFromString(text, "text/html");
-	console.log(dom);
-	let searchResults = [...dom.querySelectorAll(".g")].filter(
-		(item) =>
-			item.querySelector("cite") &&
-			item.querySelector("h3") &&
-			item !== dom.querySelector(".g .g")
-	);
-
-	if (searchResults.length <= 0) {
-		searchResults = [...dom.querySelectorAll("div[data-hveid]")].filter(
-			(i) => !i.querySelector("[data-hveid] [data-hveid]") && i.querySelector("a")
+	try {
+		let res = await fetch(
+			"https://www.googleapis.com/customsearch/v1?key=AIzaSyCWYOghgM4m0LqADdYJp0rOgRm9Tk8ZBGw&cx=82e67679f76cfad49&q=" +
+				url
 		);
-		return searchResults.slice(0, 3).map((item) => ({
-			url: item.querySelector("a").href,
-			title: item.querySelector("a div[role='heading']").innerText,
+		let jsonData = await res.json();
+		return jsonData["items"].slice(0, 3).map((item) => ({
+			url: item.link,
+			title: item.title,
+			description: item.snippet,
 		}));
-	} else {
-		return searchResults.slice(0, 3).map((item) => ({
-			url: item.querySelector("a").href,
-			title: item.querySelector("h3").innerText,
-		}));
+	} catch (err) {
+		console.log(err);
+		return {};
 	}
 };
